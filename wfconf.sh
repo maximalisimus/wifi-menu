@@ -2,7 +2,6 @@
 ANSWER="./.asf"
 _wifi_adapter=$(ip address show | grep -Ei "^[0-9]" | awk '{print $2}' | sed 's/://g'  | grep -Evi "lo" | grep -Ei "w")
 _wifi_adptr=( $_wifi_adapter )
-unset _wifi_adapter
 _intrfc=""
 _interface_mn=""
 _intr_once=0
@@ -11,7 +10,7 @@ _wf_type=""
 _wep_keypass=0
 _my_ssid=""
 mypass=""
-function select_interface()
+function slct_intrfc()
 {
 	if [[ $_intr_once -eq 0 ]]; then
 		_intr_once=1
@@ -127,14 +126,14 @@ function wifimenu()
 
 	HIGHLIGHT_SUB=$(cat ${ANSWER})
     case $(cat ${ANSWER}) in
-        "1") select_interface
+        "1") slct_intrfc
              ;;
         "2") type_wifi_connect
              ;;
         "3") search_wifi_ssid
-			;;
-		"4") connect_wifi_network
-			;;
+		;;
+	"4") connect_wifi_network
+		;;
           *) rm -rf $ANSWER
 			clear
 			exit 0
@@ -144,3 +143,4 @@ function wifimenu()
 }
 wifimenu
 exit 0
+
